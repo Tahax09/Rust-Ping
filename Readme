@@ -1,0 +1,33 @@
+# Rust Server Monitor
+
+## Overview
+
+The **Rust Server Monitor** is a Python script that continuously monitors a Rust game server using the **A2S_INFO (Source Engine Query) protocol**.  
+It can detect if the server is **UP** or **DOWN**, logs the results to a file, and sends **real-time Discord notifications** for every ping.
+
+This version supports **interactive input** for server IP or DNS and port, and **automatic notifications** via a hard-coded Discord webhook.
+
+---
+
+## Features
+
+- ✅ Continuously monitors a Rust server using UDP A2S queries  
+- ✅ Detects **server UP/DOWN** status  
+- ✅ Sends **Discord notifications** for every ping  
+- ✅ Logs status with **timestamps** to a log file  
+- ✅ Interactive terminal input for server IP/domain and port  
+- ✅ Customizable **ping interval**  
+- ✅ Supports server addresses in the format `host:port` (e.g., `biweekly.eu.moose.gg:28010`)
+
+---
+
+## Requirements
+
+- Python **3.8+**
+- Python packages:
+  - `aiohttp` (for async Discord notifications)
+
+Install dependencies with:
+
+```bash
+pip install aiohttp
