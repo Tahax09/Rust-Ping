@@ -6,7 +6,7 @@ import asyncio
 from datetime import datetime, timezone
 
 # ===== CONFIG =====
-BOT_TOKEN = "MTQyODQ0NzQwMDYzNjE5MDcyMA.Gvf9wd.dIikQNfYyRJwPfLIdn905oXKUoj5KD6w-_kTAA"  # Replace with your bot token
+BOT_TOKEN = "12344567890"  # Replace with your bot token
 
 
 # ===== BOT SETUP =====
