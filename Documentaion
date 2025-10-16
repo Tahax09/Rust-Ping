@@ -1,76 +1,109 @@
 Rust Server Monitor — Full Documentation
+========================================
 
-Overview:
-The Rust Server Monitor is a Python script that continuously monitors a Rust game server using the A2S_INFO (Source Engine Query) protocol. It can detect if the server is UP or DOWN, logs the results to a file, and sends real-time Discord notifications for every ping.
+OVERVIEW
+--------
+This project contains two versions of a Rust server monitor:
 
-Features:
-	•	Continuously monitors a Rust server using UDP A2S queries
-	•	Detects server UP/DOWN status
-	•	Sends Discord notifications for every ping
-	•	Logs status with timestamps to a log file
-	•	Interactive terminal input for server IP/domain and port
-	•	Customizable ping interval
-	•	Supports server addresses in the format host:port (e.g., biweekly.eu.moose.gg:28010)
+1. CMD Version — A Python script that continuously pings a Rust server using the A2S_INFO (Source Engine Query) protocol. Logs results locally and optionally sends notifications to a Discord webhook.
+2. Discord Bot Version — A Discord bot that monitors Rust servers and reports real-time UP/DOWN status directly in a Discord channel with slash commands.
 
-Requirements:
-	•	Python 3.8+
-	•	Python packages:
-	•	aiohttp (for async Discord notifications)
+Both versions detect server status, timestamp pings, and allow monitoring multiple servers.
 
-Install dependencies with:
+---
+
+CMD VERSION
+-----------
+### Features
+- Continuously monitors a Rust server via UDP A2S queries.
+- Detects server UP/DOWN status.
+- Sends Discord notifications using a webhook on every ping.
+- Logs status with timestamps to a log file.
+- Interactive terminal prompts for server IP/domain and port.
+- Customizable ping interval.
+- Supports server addresses in the format host:port (e.g., biweekly.eu.moose.gg:28010).
+
+### Requirements
+- Python 3.8+
+- Python packages:
+  - aiohttp (for async Discord notifications)
+
+Install dependencies:
 pip install aiohttp
 
-Usage:
-	1.	Run the script:
+### Usage
+1. Run the script:
 python Rust Ping.py
-	2.	Enter the server address when prompted:
+2. Enter the server address when prompted:
 🌐 Enter server IP or domain:port (e.g., biweekly.eu.moose.gg:28010):
-	3.	Enter the ping interval in seconds (optional, default is 10):
+3. Enter the ping interval (optional, default 10s):
 ⏳ Ping interval in seconds (default 10):
-	4.	The script will:
-	•	Continuously ping the server every interval seconds
-	•	Log results to a file named host_port_ping.log
-	•	Send Discord notifications on every ping
+4. The script will:
+   - Continuously ping the server.
+   - Log results to a file named host_port_ping.log.
+   - Send Discord notifications on every ping.
 
-Example Run:
-python Rust Ping.py
-🌐 Enter server IP or domain:port (e.g., biweekly.eu.moose.gg:28010): biweekly.eu.moose.gg:28010
-⏳ Ping interval in seconds (default 10): 5
-🎮 Monitoring Rust server biweekly.eu.moose.gg:28010 every 5s — Press Ctrl+C to stop
-2025-10-16T17:10:23+00:00 🟢 biweekly.eu.moose.gg:28010 is UP — Rusty Moose EU Biweekly
-📨 Discord notification sent (UP)
-
-Code Structure:
-	•	DISCORD_WEBHOOK — hard-coded webhook URL for sending notifications
-	•	now_iso() — returns the current UTC timestamp
-	•	send_discord_webhook(content) — asynchronously sends a message to Discord
-	•	query_rust_server(host, port, timeout) — sends A2S_INFO query, returns server status
-	•	monitor(host, port, interval, logfile) — main monitoring loop, logs status and sends notifications
-	•	parse_host_port(address, default_port) — parses host:port string
-	•	main() — interactive prompts and starts the monitoring loop
-
-Logging:
-	•	Log file format: host_port_ping.log
-	•	Example entry:
+### Logging
+- Log file format: host_port_ping.log
+- Example entry:
 2025-10-16T17:10:23+00:00 biweekly.eu.moose.gg:28010 UP
 2025-10-16T17:10:28+00:00 biweekly.eu.moose.gg:28010 DOWN
 
-Discord Notifications:
-	•	Sends a notification on every ping
-	•	Example UP notification:
-✅ Rust Server is UP
-biweekly.eu.moose.gg:28010
-Name: Rusty Moose EU Biweekly
-🕒 2025-10-16T17:10:23+00:00
-	•	Example DOWN notification:
-❌ Rust Server is DOWN
-biweekly.eu.moose.gg:28010
-🕒 2025-10-16T17:11:23+00:00
+---
 
-Notes & Tips:
-	•	Keep your Discord webhook secret. Do not upload it publicly.
-	•	Some Rust servers use game port + 1 for queries.
-	•	Stop monitoring safely with Ctrl + C.
+DISCORD BOT VERSION
+------------------
+### Features
+- Monitor Rust servers using Discord slash commands.
+- /monitor — start monitoring a Rust server (host:port format, default port 28015).
+- /stop — stop all monitoring tasks in the current channel (no IP needed).
+- Continuous pinging with real-time UP/DOWN notifications.
+- Guild-specific command sync for faster command registration.
+- Logs server status internally per ping task (messages in Discord).
 
-License:
-This project is open-source and free to use.
+### Requirements
+- Python 3.8+
+- Python packages:
+  - discord.py
+- A Discord bot with a valid token.
+- Optional: Guild ID for faster slash command registration.
+
+### Bot Setup
+1. Clone the repository:
+git clone <repo_url>
+cd Rust-Ping
+2. Install dependencies:
+pip install discord.py
+3. Set your bot token and guild ID in the code:
+BOT_TOKEN = "YOUR_BOT_TOKEN"
+GUILD_ID = 123456789012345678
+4. Run the bot:
+python rust_monitor_bot.py
+5. Type `/` in your Discord server to see available commands.
+
+### Commands
+- /monitor server:host:port interval:seconds
+  - Starts monitoring a Rust server.
+  - Sends immediate acknowledgement.
+- /stop
+  - Stops all active monitoring tasks in the channel.
+  - No server IP required.
+
+### Invite Link
+https://discord.com/oauth2/authorize?client_id=1428447400636190720&permissions=2147551232&integration_type=0&scope=bot+applications.commands
+
+---
+
+NOTES
+-----
+- Each server ping sends a new message in Discord.
+- Multiple servers can be monitored simultaneously.
+- /stop cancels all tasks in the current channel.
+- CMD version supports both terminal logs and webhook notifications.
+- Keep your Discord webhook secret. Do not upload it publicly.
+
+---
+
+LICENSE
+-------
+MIT License — open-source and free to use.

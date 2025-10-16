@@ -18,6 +18,12 @@ This version supports **interactive input** for server IP or DNS and port, and *
 - ✅ Interactive terminal input for server IP/domain and port  
 - ✅ Customizable **ping interval**  
 - ✅ Supports server addresses in the format `host:port` (e.g., `biweekly.eu.moose.gg:28010`)
+- ✅ Monitor any Rust server by IP or DNS + port.
+- ✅ `/monitor` command: Start monitoring a server.
+- ✅ `/stop` command: Stop **all monitoring tasks in the current channel** (no need to type IP/port).
+- ✅ Real-time notifications for server status (UP/DOWN) with timestamps.
+- ✅ Works in guild-specific mode for faster slash command syncing.
+
 
 ---
 
@@ -31,3 +37,36 @@ Install dependencies with:
 
 ```bash
 pip install aiohttp
+
+## **Commands**
+
+### `/monitor`
+
+Start monitoring a Rust server.
+
+**Arguments:**
+
+- `server` (required): IP or domain with optional port (`host:port`). Default port is `28015`.
+- `interval` (optional): Ping interval in seconds (default `10`).
+
+
+**Example:**
+/monitor server: biweekly.eu.moose.gg:28010 interval: 10
+
+### `/stop`
+
+Stop all Rust server monitoring in the current channel.  
+No IP/port required.
+
+**Example:**
+/stop
+
+---
+
+## **Setup**
+
+1. Clone the repository:
+
+```bash
+git clone <repo_url>
+cd Rust-Ping
